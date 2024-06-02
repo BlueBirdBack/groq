@@ -6,7 +6,6 @@ Ever wished you could have a conversation with an AI model from the comfort of y
 
 - **Chat with AI models**: Interact with AI models, each with its unique personality and conversation style.
 - **Conversational history**: Save and review your conversation history with each AI model.
-- **Multi-model support**: Engage with multiple AI models simultaneously, comparing their responses and styles.
 - **System prompts**: Load system prompts from files to guide the conversation.
 - **User input**: Gather user input and respond accordingly.
 - **Save history**: Save the conversation history to a file for future reference.
@@ -20,7 +19,7 @@ Before you begin, make sure you've got the following essentials:
 
 - **Python 3.9 or later**: You'll need this version or newer to run Groq smoothly.
 - **Groq API Key**: **Rename** the `.env.example` file to simply `.env`. Then, **save your unique Groq API key** in this new file. This is where you'll securely store your key.
-- **dotenv Library**: You'll need this handy library to manage your environment variables. It's a crucial piece of the puzzle to get Groq up and running.
+- **Required Libraries**: Install the required libraries by running `pip install -r requirements.txt`.
 
 ### Getting Started with Groq
 
