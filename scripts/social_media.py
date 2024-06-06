@@ -1,4 +1,5 @@
 import argparse
+from datetime import datetime
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -59,19 +60,38 @@ def construct_system_prompt(script_name):
     return load_prompt_from_file(file_path)
 
 
+def save_response(md_path, response):
+    folder_path = "100"
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    current_date = datetime.now().strftime("%y%m%d")
+    filename = (
+        os.path.splitext(os.path.basename(md_path))[0].lower() + f"-{current_date}.md"
+    )
+    file_path = os.path.join(folder_path, filename)
+
+    with open(file_path, "a", encoding="utf-8") as file:
+        file.write(response + "\n\n")
+
+    # print(f"Response saved to: {file_path}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Process a markdown file with Groq's Llama 3 model."
     )
     parser.add_argument("md_path", help="Path to the markdown file")
     args = parser.parse_args()
+    md_path = args.md_path
 
-    md_content = load_prompt_from_file(args.md_path)
+    md_content = load_prompt_from_file(md_path)
     if not md_content:
-        print(f"Could not read the markdown file: {args.md_path}")
+        print(f"Could not read the markdown file: {md_path}")
         return
 
     for platform in PLATFORMS:
+        save_response(md_path, platform)
         script_name = f"{platform.lower()}_expert"
         print(f"{platform} {'-' * 60}\n")
         system_prompt = construct_system_prompt(script_name)
@@ -86,6 +106,7 @@ def main():
         response = get_completion(system_prompt, user_prompt)
         if response:
             print(response)
+            save_response(md_path, response)
         else:
             print(f"Failed to get response for {platform}")
         print()
